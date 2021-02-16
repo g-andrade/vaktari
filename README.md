@@ -11,23 +11,33 @@ situations.
 
 Run `rebar3 shell` to get an Erlang shell with `vaktari` ready to use.
 
-```
-1> Pid = spawn(fun () -> timer:sleep(300 * 1000) end).
-<0.143.0>
-
-2> Monitor = vaktari:monitor(process, Pid, {user_id, <<"12345">>}).
-#Ref<0.734555226.3953262593.217377>
-
-3> exit(Pid, kill).
-true
-
-4> flush().
-Shell got {'DOWN',#Ref<0.734555226.3953262593.217377>,process,<0.143.0>,
-                  undefined,
-                  {user_id,<<"12345">>}}
+##### 1. Spawn a process
+```erlang
+Pid = spawn(fun () -> timer:sleep(300 * 1000) end).
+% <0.143.0>
 ```
 
-`{user_id, <<"12345">>}` would then allow you to identify which process
+##### 2. Monitor it
+```erlang
+Monitor = vaktari:monitor(process, Pid, {user_id, <<"12345">>}).
+% #Ref<0.734555226.3953262593.217377>
+```
+
+##### 3. Terminate it
+```erlang
+exit(Pid, kill).
+% true
+```
+
+##### 4. Get your custom data back in the DOWN message
+```erlang
+flush().
+% Shell got {'DOWN',#Ref<0.734555226.3953262593.217377>,process,<0.143.0>,
+%                   undefined,
+%                   {user_id,<<"12345">>}}
+```
+
+`{user_id, <<"12345">>}` would then allow you to identify whose process
 terminated without having to laboriously keep track of its monitor in
 your state.
 
