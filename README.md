@@ -38,6 +38,7 @@ with additional identifiers other than a `pid` or its monitor.
 **This library is purely experimental and you shouldn't use it.**
 
 Current limitations:
+- only local processes can be monitored;
 - there's no way of providing the actual termination reason due to the current
   `erl_nif` API (which is why it's `undefined` in the example above);
 - according to the docs, one of the reasons `enif_demonitor_process` may fail
